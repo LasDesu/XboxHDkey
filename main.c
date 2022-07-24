@@ -241,7 +241,7 @@ int main( int argc, char **argv )
 	int err;
 	int c;
 	
-	printf( "xboxhdkey - lock/unlock Xbox Original HDD\n\n" );
+	printf( "xboxhdkey - lock/unlock Original Xbox HDD\n\n" );
 	while ( (c = getopt(argc, argv, "he:k:lud")) != -1 )
 	{
 		switch ( c )
