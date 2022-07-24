@@ -203,7 +203,7 @@ static void process_cmd( int fd, const __u16 *id, void *hdd_key )
 
 	s_length = copy_swap_trim( serial, (const char *)&id[10], s_length );
 	m_length = copy_swap_trim( model, (const char *)&id[27], m_length );
-	printf( "HDD model: %s\n HDD serial: %s\n", model, serial );
+	printf( "HDD model: %s\nHDD serial: %s\n", model, serial );
 
 	HMAC_SHA1( HDDPass, hdd_key, 0x10, model, m_length, serial, s_length );
 	/* only 20 bytes used */
