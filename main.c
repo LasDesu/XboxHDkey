@@ -17,7 +17,7 @@ int prefer_ata12 = 0;
 
 const int timeout_15secs = 15;
 
-static __u16 *id;
+static __u16 *id = NULL;
 
 static void get_identify_data ( int fd )
 {
@@ -48,7 +48,6 @@ static void get_identify_data ( int fd )
 	}
 }
 
-static int security_freeze   = 0;
 static int security_master = 0, security_mode = 0;
 static unsigned int security_command = ATA_OP_SECURITY_UNLOCK;
 static char security_password[33];
@@ -242,13 +241,16 @@ int main( int argc, char **argv )
 	int c;
 	
 	printf( "xboxhdkey - lock/unlock Original Xbox HDD\n\n" );
-	while ( (c = getopt(argc, argv, "he:k:lud")) != -1 )
+	while ( (c = getopt(argc, argv, "he:k:ludv")) != -1 )
 	{
 		switch ( c )
 		{
 			case 'h':
 				usage();
-				exit( 1 );
+				exit( 0 );
+				break;
+			case 'v':
+				verbose = 1;
 				break;
 			case 'e':
 				eeprom_file = optarg;
@@ -327,6 +329,14 @@ int main( int argc, char **argv )
 	{
 		int err = errno;
 		perror( device );
+		exit( err );
+	}
+
+	if ( apt_detect( fd, verbose ) == -1 )
+	{
+		err = errno;
+		perror( device );
+		close( fd );
 		exit( err );
 	}
 
